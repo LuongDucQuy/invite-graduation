@@ -1,0 +1,30 @@
+{
+  "name": "graduation-invitation-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Graduation Ceremony Personalized Digital Invitation Platform",
+  "scripts": {
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build:backend": "npm --prefix backend run build",
+    "build:frontend": "npm --prefix frontend run build",
+    "build": "npm run build:backend && npm run build:frontend",
+    "prisma:migrate": "npm --prefix backend run prisma:migrate",
+    "prisma:push": "npm --prefix backend run prisma:push",
+    "prisma:seed": "npm --prefix backend run prisma:seed",
+    "docker:up": "docker compose up -d --build",
+    "docker:down": "docker compose down"
+  },
+  "keywords": [
+    "graduation",
+    "invitation",
+    "nextjs",
+    "express",
+    "prisma",
+    "postgresql",
+    "framer-motion",
+    "tailwind"
+  ],
+  "author": "Luong Duc Quy",
+  "license": "MIT"
+}

@@ -1,0 +1,147 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum RsvpStatus {
+  PENDING
+  ATTENDING
+  NOT_ATTENDING
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model Admin {
+  id           String   @id @default(uuid())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("admins")
+}
+
+model Event {
+  id              String      @id @default(uuid())
+  title           String
+  graduateName    String
+  graduateMessage String?     @db.Text
+  description     String?     @db.Text
+  eventDate       DateTime
+  startTime       String
+  endTime         String?
+  venueName       String
+  venueAddress    String
+  latitude        Float?
+  longitude       Float?
+  googleMapUrl    String?     @db.Text
+  coverImage      String?     @db.Text
+  avatarImage     String?     @db.Text
+  backgroundMusic String?     @db.Text
+  dressCode       String?
+  status          EventStatus @default(PUBLISHED)
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+
+  guests          Guest[]
+  timelines       Timeline[]
+  galleries       Gallery[]
+  messages        Message[]
+  eventGuests     EventGuest[]
+
+  @@map("events")
+}
+
+model Guest {
+  id             String      @id @default(uuid())
+  eventId        String
+  name           String
+  email          String?
+  phone          String?
+  inviteToken    String      @unique
+  numberOfGuests Int         @default(1)
+  relationship   String?
+  rsvpStatus     RsvpStatus  @default(PENDING)
+  rsvpMessage    String?     @db.Text
+  openedAt       DateTime?
+  confirmedAt    DateTime?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+
+  event          Event        @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  messages       Message[]
+  eventGuests    EventGuest[]
+
+  @@index([inviteToken])
+  @@index([eventId])
+  @@map("guests")
+}
+
+model EventGuest {
+  id        String   @id @default(uuid())
+  eventId   String
+  guestId   String
+  createdAt DateTime @default(now())
+
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  guest     Guest    @relation(fields: [guestId], references: [id], onDelete: Cascade)
+
+  @@unique([eventId, guestId])
+  @@map("event_guests")
+}
+
+model Timeline {
+  id          String   @id @default(uuid())
+  eventId     String
+  time        String
+  title       String
+  description String?  @db.Text
+  icon        String?  @default("clock")
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  event       Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@index([eventId])
+  @@map("timelines")
+}
+
+model Gallery {
+  id        String   @id @default(uuid())
+  eventId   String
+  imageUrl  String   @db.Text
+  caption   String?
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@index([eventId])
+  @@map("galleries")
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  eventId   String
+  guestId   String?
+  guestName String
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+
+  event     Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  guest     Guest?   @relation(fields: [guestId], references: [id], onDelete: SetNull)
+
+  @@index([eventId])
+  @@index([guestId])
+  @@map("messages")
+}
