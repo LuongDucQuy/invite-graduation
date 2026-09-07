@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Sparkles, MailOpen } from 'lucide-react';
-import confetti from 'canvas-confetti';
-import { EventData, GuestData } from '@/types/invitation';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Sparkles, MailOpen } from "lucide-react";
+import confetti from "canvas-confetti";
+import { EventData, GuestData } from "@/types/invitation";
 
 interface HeroEnvelopeProps {
   event: EventData;
@@ -13,7 +13,12 @@ interface HeroEnvelopeProps {
   isOpen: boolean;
 }
 
-export function HeroEnvelope({ event, guest, onOpen, isOpen }: HeroEnvelopeProps) {
+export function HeroEnvelope({
+  event,
+  guest,
+  onOpen,
+  isOpen,
+}: HeroEnvelopeProps) {
   const [isOpening, setIsOpening] = useState(false);
 
   const handleOpenClick = () => {
@@ -26,7 +31,7 @@ export function HeroEnvelope({ event, guest, onOpen, isOpen }: HeroEnvelopeProps
         particleCount: 80,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ['#D4AF37', '#F4E8D0', '#C5A059', '#1C2541', '#FFFFFF'],
+        colors: ["#D4AF37", "#F4E8D0", "#C5A059", "#1C2541", "#FFFFFF"],
       });
     } catch {
       // ignore
@@ -40,14 +45,20 @@ export function HeroEnvelope({ event, guest, onOpen, isOpen }: HeroEnvelopeProps
   if (isOpen) return null;
 
   const eventDateObj = new Date(event.eventDate);
-  const formattedDay = eventDateObj.getDate().toString().padStart(2, '0');
-  const formattedMonth = (eventDateObj.getMonth() + 1).toString().padStart(2, '0');
+  const formattedDay = eventDateObj.getDate().toString().padStart(2, "0");
+  const formattedMonth = (eventDateObj.getMonth() + 1)
+    .toString()
+    .padStart(2, "0");
   const formattedYear = eventDateObj.getFullYear();
 
   return (
     <motion.div
       initial={{ opacity: 1 }}
-      exit={{ opacity: 0, scale: 1.05, transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] } }}
+      exit={{
+        opacity: 0,
+        scale: 1.05,
+        transition: { duration: 0.9, ease: [0.22, 1, 0.36, 1] },
+      }}
       className="fixed inset-0 z-50 flex items-center justify-center bg-navy-950 px-4 select-none overflow-hidden"
     >
       {/* Background ambient light */}
@@ -71,13 +82,13 @@ export function HeroEnvelope({ event, guest, onOpen, isOpen }: HeroEnvelopeProps
           opacity: isOpening ? 0.3 : 1,
           scale: isOpening ? 1.05 : 1,
         }}
-        transition={{ duration: 0.8, ease: 'easeOut' }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
         className="relative z-10 max-w-lg w-full bg-gradient-to-b from-[#162238] via-[#0E1726] to-[#0B132B] rounded-3xl p-8 md:p-12 text-center border border-champagne-500/30 shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_30px_rgba(212,175,55,0.15)] backdrop-blur-xl"
       >
         {/* Floating Sparkle icon */}
         <motion.div
           animate={{ rotate: 360 }}
-          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
           className="mx-auto w-12 h-12 rounded-full bg-champagne-500/10 border border-champagne-400/30 flex items-center justify-center mb-6 text-champagne-300"
         >
           <Sparkles className="w-6 h-6" />
@@ -92,17 +103,17 @@ export function HeroEnvelope({ event, guest, onOpen, isOpen }: HeroEnvelopeProps
         <div className="text-4xl md:text-5xl mb-3">🎓</div>
 
         {/* Main Title */}
-        <h1 className="font-serif text-2xl md:text-4xl text-cream-50 font-medium tracking-wide uppercase leading-tight mb-2">
+        <h1 className=" text-2xl md:text-4xl text-cream-50 font-medium tracking-wide uppercase leading-tight mb-2">
           Lễ Tốt Nghiệp
         </h1>
 
-        <p className="font-serif italic text-base md:text-lg text-champagne-300/90 mb-4 font-light">
+        <p className=" italic text-base md:text-lg text-champagne-300/90 mb-4 font-light">
           Graduation Ceremony
         </p>
 
         {/* Graduate Name */}
         <div className="my-5 py-3 border-y border-champagne-500/20">
-          <h2 className="text-2xl md:text-3xl font-serif font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#F4E8D0] via-[#D4AF37] to-[#DEC087] tracking-wider uppercase">
+          <h2 className="text-2xl md:text-3xl  font-bold text-transparent bg-clip-text bg-gradient-to-r from-[#F4E8D0] via-[#D4AF37] to-[#DEC087] tracking-wider uppercase">
             {event.graduateName}
           </h2>
           <p className="text-xs uppercase tracking-[0.25em] text-slate-400 mt-1 font-sans">
@@ -113,21 +124,29 @@ export function HeroEnvelope({ event, guest, onOpen, isOpen }: HeroEnvelopeProps
         {/* Dedicated Guest Badge */}
         <div className="mb-6 inline-block bg-champagne-500/10 border border-champagne-400/20 px-4 py-1.5 rounded-full">
           <span className="text-xs text-champagne-200/90 tracking-wider">
-            Thân mời: <strong className="text-champagne-300 font-semibold">{guest.name}</strong>
+            Thân mời:{" "}
+            <strong className="text-champagne-300 font-semibold">
+              {guest.name}
+            </strong>
           </span>
         </div>
 
         {/* Date & Time */}
         <div className="text-sm md:text-base text-slate-300 mb-8 font-light tracking-wide space-y-1">
-          <p className="font-serif text-champagne-200 text-lg">
+          <p className=" text-champagne-200 text-lg">
             {formattedDay}.{formattedMonth}.{formattedYear}
           </p>
-          <p className="text-slate-400 text-xs tracking-widest">{event.startTime} VN TIME</p>
+          <p className="text-slate-400 text-xs tracking-widest">
+            {event.startTime}
+          </p>
         </div>
 
         {/* Open Button */}
         <motion.button
-          whileHover={{ scale: 1.04, boxShadow: '0 0 30px rgba(212, 175, 55, 0.4)' }}
+          whileHover={{
+            scale: 1.04,
+            boxShadow: "0 0 30px rgba(212, 175, 55, 0.4)",
+          }}
           whileTap={{ scale: 0.97 }}
           onClick={handleOpenClick}
           disabled={isOpening}
@@ -135,7 +154,7 @@ export function HeroEnvelope({ event, guest, onOpen, isOpen }: HeroEnvelopeProps
         >
           <span className="absolute inset-0 w-full h-full bg-white/20 transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
           <MailOpen className="w-4 h-4 text-navy-950 transition-transform group-hover:rotate-12" />
-          <span>{isOpening ? 'Đang Mở...' : 'MỞ THIỆP MỜI'}</span>
+          <span>{isOpening ? "Đang Mở..." : "MỞ THIỆP MỜI"}</span>
         </motion.button>
       </motion.div>
     </motion.div>

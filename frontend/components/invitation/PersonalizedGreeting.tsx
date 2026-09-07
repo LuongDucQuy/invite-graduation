@@ -1,23 +1,26 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Quote, Heart } from 'lucide-react';
-import { EventData, GuestData } from '@/types/invitation';
+import React from "react";
+import { motion } from "framer-motion";
+import { Quote, Heart } from "lucide-react";
+import { EventData, GuestData } from "@/types/invitation";
 
 interface PersonalizedGreetingProps {
   event: EventData;
   guest: GuestData;
 }
 
-export function PersonalizedGreeting({ event, guest }: PersonalizedGreetingProps) {
+export function PersonalizedGreeting({
+  event,
+  guest,
+}: PersonalizedGreetingProps) {
   return (
     <section className="relative py-16 md:py-24 px-4 overflow-hidden text-center">
       {/* Subtle top decoration */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-50px' }}
+        viewport={{ once: true, margin: "-50px" }}
         transition={{ duration: 0.8 }}
         className="max-w-2xl mx-auto"
       >
@@ -39,7 +42,8 @@ export function PersonalizedGreeting({ event, guest }: PersonalizedGreetingProps
             SPECIAL INVITATION TO
           </p>
           <h2 className="font-serif text-3xl md:text-5xl font-medium text-slate-900 mt-2 tracking-tight">
-            Thân mời <span className="text-champagne-700 font-bold">{guest.name}</span>
+            Thân mời{" "}
+            <span className="text-champagne-700 font-bold">{guest.name}</span>
           </h2>
           {guest.relationship && (
             <span className="inline-block mt-2 px-3 py-1 text-xs rounded-full bg-champagne-100/80 text-champagne-800 border border-champagne-200">
@@ -58,8 +62,11 @@ export function PersonalizedGreeting({ event, guest }: PersonalizedGreetingProps
         >
           <Quote className="w-10 h-10 text-champagne-300 mx-auto mb-4 opacity-50 rotate-180" />
 
-          <p className="font-serif italic text-lg md:text-xl text-slate-700 leading-relaxed">
-            &ldquo;{event.graduateMessage || 'Quý rất vui khi được chia sẻ một cột mốc đặc biệt này cùng bạn.'}&rdquo;
+          <p className="italic text-lg md:text-xl text-slate-700 leading-relaxed">
+            &ldquo;
+            {event.graduateMessage ||
+              "Quý rất vui khi được chia sẻ một cột mốc đặc biệt này cùng bạn."}
+            &rdquo;
           </p>
 
           {event.description && (
@@ -77,8 +84,12 @@ export function PersonalizedGreeting({ event, guest }: PersonalizedGreetingProps
               />
             )}
             <div className="text-left">
-              <p className="font-serif font-bold text-slate-900 text-sm">{event.graduateName}</p>
-              <p className="text-xs text-champagne-600 tracking-wider uppercase">Tân Cử Nhân</p>
+              <p className=" font-bold text-slate-900 text-sm">
+                {event.graduateName}
+              </p>
+              <p className="text-xs text-champagne-600 tracking-wider uppercase">
+                Tân Cử Nhân
+              </p>
             </div>
           </div>
         </motion.div>

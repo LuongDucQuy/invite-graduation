@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Users,
   Search,
@@ -16,12 +16,12 @@ import {
   Clock,
   MailCheck,
   Filter,
-} from 'lucide-react';
-import { AdminService } from '@/services/admin.service';
-import { useToast } from '@/components/ui/Toast';
-import { Modal } from '@/components/ui/Modal';
-import { formatDateTime } from '@/lib/utils';
-import { RsvpStatus } from '@/types/invitation';
+} from "lucide-react";
+import { AdminService } from "@/services/admin.service";
+import { useToast } from "@/components/ui/Toast";
+import { Modal } from "@/components/ui/Modal";
+import { formatDateTime } from "@/lib/utils";
+import { RsvpStatus } from "@/types/invitation";
 
 interface GuestManagementProps {
   eventId: string;
@@ -33,9 +33,9 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [search, setSearch] = useState('');
-  const [rsvpFilter, setRsvpFilter] = useState('');
-  const [openedFilter, setOpenedFilter] = useState<string>('');
+  const [search, setSearch] = useState("");
+  const [rsvpFilter, setRsvpFilter] = useState("");
+  const [openedFilter, setOpenedFilter] = useState<string>("");
   const [loading, setLoading] = useState(true);
 
   // Modals
@@ -46,16 +46,16 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
 
   // Form State
   const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    relationship: '',
+    name: "",
+    email: "",
+    phone: "",
+    relationship: "",
     numberOfGuests: 1,
-    rsvpStatus: 'PENDING' as RsvpStatus,
+    rsvpStatus: "PENDING" as RsvpStatus,
   });
 
   // CSV Import State
-  const [csvText, setCsvText] = useState('');
+  const [csvText, setCsvText] = useState("");
   const [isImporting, setIsImporting] = useState(false);
 
   const fetchGuests = useCallback(async () => {
@@ -65,7 +65,7 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
         eventId,
         search: search.trim() || undefined,
         rsvpStatus: rsvpFilter || undefined,
-        isOpened: openedFilter !== '' ? openedFilter === 'true' : undefined,
+        isOpened: openedFilter !== "" ? openedFilter === "true" : undefined,
         page,
         limit: 20,
       });
@@ -73,7 +73,7 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
       setTotal(res.pagination.total);
       setTotalPages(res.pagination.totalPages);
     } catch (err: any) {
-      error('Lỗi tải danh sách khách mời', err.message);
+      error("Lỗi tải danh sách khách mời", err.message);
     } finally {
       setLoading(false);
     }
@@ -84,10 +84,13 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
   }, [fetchGuests]);
 
   const handleCopyLink = (token: string, name: string) => {
-    const origin = typeof window !== 'undefined' ? window.location.origin : '';
+    const origin = typeof window !== "undefined" ? window.location.origin : "";
     const inviteUrl = `${origin}/invite/${token}`;
     navigator.clipboard.writeText(inviteUrl);
-    success('Đã sao chép link!', `Đã sao chép đường link thiệp riêng cho ${name}`);
+    success(
+      "Đã sao chép link!",
+      `Đã sao chép đường link thiệp riêng cho ${name}`,
+    );
   };
 
   const handleCreateGuest = async (e: React.FormEvent) => {
@@ -103,12 +106,22 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
         relationship: formState.relationship || undefined,
         numberOfGuests: Number(formState.numberOfGuests) || 1,
       });
-      success('Thêm khách thành công!', `Đã tạo thiệp mời cho ${formState.name}`);
+      success(
+        "Thêm khách thành công!",
+        `Đã tạo thiệp mời cho ${formState.name}`,
+      );
       setIsAddModalOpen(false);
-      setFormState({ name: '', email: '', phone: '', relationship: '', numberOfGuests: 1, rsvpStatus: 'PENDING' });
+      setFormState({
+        name: "",
+        email: "",
+        phone: "",
+        relationship: "",
+        numberOfGuests: 1,
+        rsvpStatus: "PENDING",
+      });
       fetchGuests();
     } catch (err: any) {
-      error('Lỗi tạo khách mời', err.message);
+      error("Lỗi tạo khách mời", err.message);
     }
   };
 
@@ -125,24 +138,25 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
         numberOfGuests: Number(formState.numberOfGuests),
         rsvpStatus: formState.rsvpStatus,
       });
-      success('Cập nhật thành công!', `Đã lưu thông tin cho ${formState.name}`);
+      success("Cập nhật thành công!", `Đã lưu thông tin cho ${formState.name}`);
       setIsEditModalOpen(false);
       setSelectedGuest(null);
       fetchGuests();
     } catch (err: any) {
-      error('Lỗi cập nhật', err.message);
+      error("Lỗi cập nhật", err.message);
     }
   };
 
   const handleDeleteGuest = async (id: string, name: string) => {
-    if (!window.confirm(`Bạn có chắc muốn xóa khách mời "${name}" không?`)) return;
+    if (!window.confirm(`Bạn có chắc muốn xóa khách mời "${name}" không?`))
+      return;
 
     try {
       await AdminService.deleteGuest(id);
-      success('Đã xóa khách mời', `Đã xóa ${name} khỏi danh sách`);
+      success("Đã xóa khách mời", `Đã xóa ${name} khỏi danh sách`);
       fetchGuests();
     } catch (err: any) {
-      error('Lỗi xóa khách mời', err.message);
+      error("Lỗi xóa khách mời", err.message);
     }
   };
 
@@ -150,9 +164,9 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
     setSelectedGuest(guest);
     setFormState({
       name: guest.name,
-      email: guest.email || '',
-      phone: guest.phone || '',
-      relationship: guest.relationship || '',
+      email: guest.email || "",
+      phone: guest.phone || "",
+      relationship: guest.relationship || "",
       numberOfGuests: guest.numberOfGuests || 1,
       rsvpStatus: guest.rsvpStatus,
     });
@@ -164,7 +178,7 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
 
     setIsImporting(true);
     try {
-      const lines = csvText.trim().split('\n');
+      const lines = csvText.trim().split("\n");
       const parsedGuests: any[] = [];
 
       for (let i = 0; i < lines.length; i++) {
@@ -172,11 +186,17 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
         if (!line) continue;
 
         // Skip header if line starts with name
-        if (i === 0 && (line.toLowerCase().includes('name') || line.toLowerCase().includes('tên'))) {
+        if (
+          i === 0 &&
+          (line.toLowerCase().includes("name") ||
+            line.toLowerCase().includes("tên"))
+        ) {
           continue;
         }
 
-        const parts = line.split(',').map((p) => p.trim().replace(/^["']|["']$/g, ''));
+        const parts = line
+          .split(",")
+          .map((p) => p.trim().replace(/^["']|["']$/g, ""));
         if (parts[0]) {
           parsedGuests.push({
             name: parts[0],
@@ -189,16 +209,21 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
       }
 
       if (parsedGuests.length === 0) {
-        throw new Error('Không tìm thấy dòng dữ liệu hợp lệ trong nội dung CSV');
+        throw new Error(
+          "Không tìm thấy dòng dữ liệu hợp lệ trong nội dung CSV",
+        );
       }
 
       await AdminService.importGuests(eventId, parsedGuests);
-      success('Import thành công!', `Đã thêm ${parsedGuests.length} khách mời vào danh sách.`);
+      success(
+        "Import thành công!",
+        `Đã thêm ${parsedGuests.length} khách mời vào danh sách.`,
+      );
       setIsImportModalOpen(false);
-      setCsvText('');
+      setCsvText("");
       fetchGuests();
     } catch (err: any) {
-      error('Lỗi Import CSV', err.message);
+      error("Lỗi Import CSV", err.message);
     } finally {
       setIsImporting(false);
     }
@@ -209,9 +234,12 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
       {/* Header with Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="font-serif text-2xl font-bold text-slate-900">Quản Lý Khách Mời</h2>
+          <h2 className=" text-2xl font-bold text-slate-900">
+            Quản Lý Khách Mời
+          </h2>
           <p className="text-sm text-slate-500">
-            Tổng cộng: <strong>{total}</strong> khách mời &bull; Mỗi khách có một đường link thiệp riêng biệt
+            Tổng cộng: <strong>{total}</strong> khách mời &bull; Mỗi khách có
+            một đường link thiệp riêng biệt
           </p>
         </div>
 
@@ -226,7 +254,14 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
 
           <button
             onClick={() => {
-              setFormState({ name: '', email: '', phone: '', relationship: '', numberOfGuests: 1, rsvpStatus: 'PENDING' });
+              setFormState({
+                name: "",
+                email: "",
+                phone: "",
+                relationship: "",
+                numberOfGuests: 1,
+                rsvpStatus: "PENDING",
+              });
               setIsAddModalOpen(true);
             }}
             className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-champagne-600 hover:bg-champagne-700 text-white font-medium text-sm shadow-sm transition-colors"
@@ -314,32 +349,37 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
               ) : (
                 guests.map((g) => {
                   return (
-                    <tr key={g.id} className="hover:bg-slate-50/80 transition-colors">
+                    <tr
+                      key={g.id}
+                      className="hover:bg-slate-50/80 transition-colors"
+                    >
                       <td className="px-6 py-4">
-                        <div className="font-semibold text-slate-900">{g.name}</div>
+                        <div className="font-semibold text-slate-900">
+                          {g.name}
+                        </div>
                         <div className="text-xs text-slate-400">
-                          {g.phone || g.email || 'Chưa có thông tin liên lạc'}
+                          {g.phone || g.email || "Chưa có thông tin liên lạc"}
                         </div>
                       </td>
                       <td className="px-6 py-4">
                         <span className="inline-block px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-700">
-                          {g.relationship || 'Khách mời'}
+                          {g.relationship || "Khách mời"}
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        {g.rsvpStatus === 'ATTENDING' && (
+                        {g.rsvpStatus === "ATTENDING" && (
                           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800">
                             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                             Tham dự ({g.numberOfGuests} pax)
                           </span>
                         )}
-                        {g.rsvpStatus === 'NOT_ATTENDING' && (
+                        {g.rsvpStatus === "NOT_ATTENDING" && (
                           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-rose-100 text-rose-800">
                             <XCircle className="w-3.5 h-3.5 text-rose-600" />
                             Không thể đến
                           </span>
                         )}
-                        {g.rsvpStatus === 'PENDING' && (
+                        {g.rsvpStatus === "PENDING" && (
                           <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-800">
                             <Clock className="w-3.5 h-3.5 text-amber-600" />
                             Chưa phản hồi
@@ -348,12 +388,17 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
                       </td>
                       <td className="px-6 py-4">
                         {g.openedAt ? (
-                          <span className="text-xs text-blue-600 flex items-center gap-1 font-medium" title={formatDateTime(g.openedAt)}>
+                          <span
+                            className="text-xs text-blue-600 flex items-center gap-1 font-medium"
+                            title={formatDateTime(g.openedAt)}
+                          >
                             <MailCheck className="w-4 h-4" />
-                            {formatDateTime(g.openedAt).split(' ')[0]}
+                            {formatDateTime(g.openedAt).split(" ")[0]}
                           </span>
                         ) : (
-                          <span className="text-xs text-slate-400">Chưa mở</span>
+                          <span className="text-xs text-slate-400">
+                            Chưa mở
+                          </span>
                         )}
                       </td>
                       <td className="px-6 py-4">
@@ -362,7 +407,9 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
                             {g.inviteToken}
                           </code>
                           <button
-                            onClick={() => handleCopyLink(g.inviteToken, g.name)}
+                            onClick={() =>
+                              handleCopyLink(g.inviteToken, g.name)
+                            }
                             className="p-1.5 rounded-lg text-slate-500 hover:text-champagne-700 hover:bg-champagne-50 transition-colors"
                             title="Sao chép link thiệp"
                           >
@@ -432,59 +479,86 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
       </div>
 
       {/* Add Modal */}
-      <Modal isOpen={isAddModalOpen} onClose={() => setIsAddModalOpen(false)} title="Thêm Khách Mời Mới">
+      <Modal
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        title="Thêm Khách Mời Mới"
+      >
         <form onSubmit={handleCreateGuest} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">Tên khách mời *</label>
+            <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
+              Tên khách mời *
+            </label>
             <input
               type="text"
               required
               value={formState.name}
-              onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+              onChange={(e) =>
+                setFormState({ ...formState, name: e.target.value })
+              }
               className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800"
               placeholder="VD: Nguyễn Văn A"
             />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">Số điện thoại</label>
+              <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
+                Số điện thoại
+              </label>
               <input
                 type="text"
                 value={formState.phone}
-                onChange={(e) => setFormState({ ...formState, phone: e.target.value })}
+                onChange={(e) =>
+                  setFormState({ ...formState, phone: e.target.value })
+                }
                 className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800"
                 placeholder="0901234567"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">Mối quan hệ</label>
+              <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
+                Mối quan hệ
+              </label>
               <input
                 type="text"
                 value={formState.relationship}
-                onChange={(e) => setFormState({ ...formState, relationship: e.target.value })}
+                onChange={(e) =>
+                  setFormState({ ...formState, relationship: e.target.value })
+                }
                 className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800"
                 placeholder="Bạn thân, Gia đình..."
               />
             </div>
           </div>
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">Email</label>
+            <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
+              Email
+            </label>
             <input
               type="email"
               value={formState.email}
-              onChange={(e) => setFormState({ ...formState, email: e.target.value })}
+              onChange={(e) =>
+                setFormState({ ...formState, email: e.target.value })
+              }
               className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800"
               placeholder="guest@example.com"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">Số lượng người đi kèm (Pax)</label>
+            <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
+              Số lượng người đi kèm (Pax)
+            </label>
             <input
               type="number"
               min={1}
               max={10}
               value={formState.numberOfGuests}
-              onChange={(e) => setFormState({ ...formState, numberOfGuests: parseInt(e.target.value, 10) || 1 })}
+              onChange={(e) =>
+                setFormState({
+                  ...formState,
+                  numberOfGuests: parseInt(e.target.value, 10) || 1,
+                })
+              }
               className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800"
             />
           </div>
@@ -507,59 +581,91 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
       </Modal>
 
       {/* Edit Modal */}
-      <Modal isOpen={isEditModalOpen} onClose={() => setIsEditModalOpen(false)} title="Chỉnh Sửa Khách Mời">
+      <Modal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        title="Chỉnh Sửa Khách Mời"
+      >
         <form onSubmit={handleUpdateGuest} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">Tên khách mời *</label>
+            <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
+              Tên khách mời *
+            </label>
             <input
               type="text"
               required
               value={formState.name}
-              onChange={(e) => setFormState({ ...formState, name: e.target.value })}
+              onChange={(e) =>
+                setFormState({ ...formState, name: e.target.value })
+              }
               className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800"
             />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">Số điện thoại</label>
+              <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
+                Số điện thoại
+              </label>
               <input
                 type="text"
                 value={formState.phone}
-                onChange={(e) => setFormState({ ...formState, phone: e.target.value })}
+                onChange={(e) =>
+                  setFormState({ ...formState, phone: e.target.value })
+                }
                 className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800"
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">Mối quan hệ</label>
+              <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
+                Mối quan hệ
+              </label>
               <input
                 type="text"
                 value={formState.relationship}
-                onChange={(e) => setFormState({ ...formState, relationship: e.target.value })}
+                onChange={(e) =>
+                  setFormState({ ...formState, relationship: e.target.value })
+                }
                 className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800"
               />
             </div>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">Trạng thái RSVP</label>
+              <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
+                Trạng thái RSVP
+              </label>
               <select
                 value={formState.rsvpStatus}
-                onChange={(e) => setFormState({ ...formState, rsvpStatus: e.target.value as RsvpStatus })}
+                onChange={(e) =>
+                  setFormState({
+                    ...formState,
+                    rsvpStatus: e.target.value as RsvpStatus,
+                  })
+                }
                 className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800 bg-white"
               >
                 <option value="PENDING">PENDING (Chưa phản hồi)</option>
                 <option value="ATTENDING">ATTENDING (Sẽ tham dự)</option>
-                <option value="NOT_ATTENDING">NOT_ATTENDING (Không thể đến)</option>
+                <option value="NOT_ATTENDING">
+                  NOT_ATTENDING (Không thể đến)
+                </option>
               </select>
             </div>
             <div>
-              <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">Số lượng khách (Pax)</label>
+              <label className="block text-xs font-semibold uppercase text-slate-600 mb-1">
+                Số lượng khách (Pax)
+              </label>
               <input
                 type="number"
                 min={1}
                 max={10}
                 value={formState.numberOfGuests}
-                onChange={(e) => setFormState({ ...formState, numberOfGuests: parseInt(e.target.value, 10) || 1 })}
+                onChange={(e) =>
+                  setFormState({
+                    ...formState,
+                    numberOfGuests: parseInt(e.target.value, 10) || 1,
+                  })
+                }
                 className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800"
               />
             </div>
@@ -583,7 +689,12 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
       </Modal>
 
       {/* CSV Import Modal */}
-      <Modal isOpen={isImportModalOpen} onClose={() => setIsImportModalOpen(false)} title="Import Danh Sách Khách Từ CSV" maxWidth="lg">
+      <Modal
+        isOpen={isImportModalOpen}
+        onClose={() => setIsImportModalOpen(false)}
+        title="Import Danh Sách Khách Từ CSV"
+        maxWidth="lg"
+      >
         <div className="space-y-4">
           <p className="text-xs text-slate-500">
             Dán nội dung danh sách theo định dạng CSV (mỗi dòng một khách):
@@ -613,7 +724,7 @@ export function GuestManagement({ eventId }: GuestManagementProps) {
               disabled={isImporting || !csvText.trim()}
               className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm disabled:opacity-50"
             >
-              {isImporting ? 'Đang import...' : 'Tiến Hành Import'}
+              {isImporting ? "Đang import..." : "Tiến Hành Import"}
             </button>
           </div>
         </div>

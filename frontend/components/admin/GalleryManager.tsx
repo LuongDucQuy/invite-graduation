@@ -1,11 +1,17 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, Edit2, Image as ImageIcon, ExternalLink } from 'lucide-react';
-import { AdminService } from '@/services/admin.service';
-import { useToast } from '@/components/ui/Toast';
-import { Modal } from '@/components/ui/Modal';
-import { GalleryItem } from '@/types/invitation';
+import React, { useState, useEffect } from "react";
+import {
+  Plus,
+  Trash2,
+  Edit2,
+  Image as ImageIcon,
+  ExternalLink,
+} from "lucide-react";
+import { AdminService } from "@/services/admin.service";
+import { useToast } from "@/components/ui/Toast";
+import { Modal } from "@/components/ui/Modal";
+import { GalleryItem } from "@/types/invitation";
 
 interface GalleryManagerProps {
   eventId: string;
@@ -18,8 +24,8 @@ export function GalleryManager({ eventId }: GalleryManagerProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<GalleryItem | null>(null);
   const [formData, setFormData] = useState({
-    imageUrl: '',
-    caption: '',
+    imageUrl: "",
+    caption: "",
     sortOrder: 1,
   });
 
@@ -29,7 +35,7 @@ export function GalleryManager({ eventId }: GalleryManagerProps) {
       const data = await AdminService.getGalleries(eventId);
       setGalleries(data);
     } catch (err: any) {
-      error('Lỗi tải danh sách ảnh', err.message);
+      error("Lỗi tải danh sách ảnh", err.message);
     } finally {
       setLoading(false);
     }
@@ -42,8 +48,8 @@ export function GalleryManager({ eventId }: GalleryManagerProps) {
   const handleOpenAdd = () => {
     setEditingItem(null);
     setFormData({
-      imageUrl: '',
-      caption: '',
+      imageUrl: "",
+      caption: "",
       sortOrder: galleries.length + 1,
     });
     setIsModalOpen(true);
@@ -53,7 +59,7 @@ export function GalleryManager({ eventId }: GalleryManagerProps) {
     setEditingItem(item);
     setFormData({
       imageUrl: item.imageUrl,
-      caption: item.caption || '',
+      caption: item.caption || "",
       sortOrder: item.sortOrder,
     });
     setIsModalOpen(true);
@@ -67,30 +73,30 @@ export function GalleryManager({ eventId }: GalleryManagerProps) {
           ...formData,
           sortOrder: Number(formData.sortOrder),
         });
-        success('Cập nhật thành công', 'Ảnh đã được chỉnh sửa');
+        success("Cập nhật thành công", "Ảnh đã được chỉnh sửa");
       } else {
         await AdminService.createGallery({
           eventId,
           ...formData,
           sortOrder: Number(formData.sortOrder),
         });
-        success('Thêm thành công', 'Ảnh mới đã được thêm');
+        success("Thêm thành công", "Ảnh mới đã được thêm");
       }
       setIsModalOpen(false);
       fetchGalleries();
     } catch (err: any) {
-      error('Lỗi lưu ảnh', err.message);
+      error("Lỗi lưu ảnh", err.message);
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm('Bạn có chắc muốn xóa ảnh này?')) return;
+    if (!window.confirm("Bạn có chắc muốn xóa ảnh này?")) return;
     try {
       await AdminService.deleteGallery(id);
-      success('Đã xóa ảnh');
+      success("Đã xóa ảnh");
       fetchGalleries();
     } catch (err: any) {
-      error('Lỗi xóa ảnh', err.message);
+      error("Lỗi xóa ảnh", err.message);
     }
   };
 
@@ -98,7 +104,9 @@ export function GalleryManager({ eventId }: GalleryManagerProps) {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-serif text-2xl font-bold text-slate-900">Thư Viện Ảnh (Gallery)</h2>
+          <h2 className=" text-2xl font-bold text-slate-900">
+            Thư Viện Ảnh (Gallery)
+          </h2>
           <p className="text-sm text-slate-500">
             Quản lý các hình ảnh kỷ niệm, ảnh tốt nghiệp hiển thị trong thiệp
           </p>
@@ -115,7 +123,9 @@ export function GalleryManager({ eventId }: GalleryManagerProps) {
 
       {/* Gallery Grid */}
       {loading ? (
-        <div className="text-center py-10 text-slate-400">Đang tải danh sách ảnh...</div>
+        <div className="text-center py-10 text-slate-400">
+          Đang tải danh sách ảnh...
+        </div>
       ) : galleries.length === 0 ? (
         <div className="text-center py-12 text-slate-400 bg-white rounded-2xl border border-slate-200">
           Chưa có hình ảnh nào trong thư viện
@@ -130,7 +140,7 @@ export function GalleryManager({ eventId }: GalleryManagerProps) {
               <div className="relative aspect-[4/3] bg-slate-100 overflow-hidden">
                 <img
                   src={item.imageUrl}
-                  alt={item.caption || 'Gallery photo'}
+                  alt={item.caption || "Gallery photo"}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <span className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/60 text-white text-[10px] font-mono">
@@ -140,7 +150,7 @@ export function GalleryManager({ eventId }: GalleryManagerProps) {
 
               <div className="p-4 flex-1 flex flex-col justify-between">
                 <p className="text-xs text-slate-700 line-clamp-2 mb-3">
-                  {item.caption || '(Không có chú thích)'}
+                  {item.caption || "(Không có chú thích)"}
                 </p>
 
                 <div className="flex items-center justify-between pt-2 border-t border-slate-100">
@@ -178,7 +188,7 @@ export function GalleryManager({ eventId }: GalleryManagerProps) {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={editingItem ? 'Chỉnh Sửa Ảnh' : 'Thêm Ảnh Mới Vào Thư Viện'}
+        title={editingItem ? "Chỉnh Sửa Ảnh" : "Thêm Ảnh Mới Vào Thư Viện"}
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
@@ -190,7 +200,9 @@ export function GalleryManager({ eventId }: GalleryManagerProps) {
               required
               placeholder="https://images.unsplash.com/..."
               value={formData.imageUrl}
-              onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, imageUrl: e.target.value })
+              }
               className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800"
             />
           </div>
@@ -203,7 +215,9 @@ export function GalleryManager({ eventId }: GalleryManagerProps) {
               type="text"
               placeholder="VD: Kỷ niệm ngày chụp kỷ yếu"
               value={formData.caption}
-              onChange={(e) => setFormData({ ...formData, caption: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, caption: e.target.value })
+              }
               className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800"
             />
           </div>
@@ -215,7 +229,12 @@ export function GalleryManager({ eventId }: GalleryManagerProps) {
             <input
               type="number"
               value={formData.sortOrder}
-              onChange={(e) => setFormData({ ...formData, sortOrder: parseInt(e.target.value, 10) || 1 })}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  sortOrder: parseInt(e.target.value, 10) || 1,
+                })
+              }
               className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800"
             />
           </div>
@@ -228,7 +247,9 @@ export function GalleryManager({ eventId }: GalleryManagerProps) {
                   src={formData.imageUrl}
                   alt="Preview"
                   className="w-full h-full object-cover"
-                  onError={(e) => ((e.target as HTMLElement).style.display = 'none')}
+                  onError={(e) =>
+                    ((e.target as HTMLElement).style.display = "none")
+                  }
                 />
               </div>
             </div>

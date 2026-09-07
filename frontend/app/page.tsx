@@ -52,7 +52,7 @@ export default function HomePage() {
             <GraduationCap className="w-6 h-6" />
           </div>
           <div>
-            <span className="font-serif font-bold text-lg text-cream-50">
+            <span className=" font-bold text-lg text-cream-50">
               Graduation Invitation
             </span>
             <span className="text-xs text-champagne-300 block font-sans">
@@ -72,7 +72,7 @@ export default function HomePage() {
 
       {/* Hero Content */}
       <main className="relative z-10 max-w-4xl mx-auto px-6 py-16 text-center">
-        <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cream-100 via-champagne-300 to-cream-200 mb-6 leading-tight">
+        <h1 className=" text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cream-100 via-champagne-300 to-cream-200 mb-6 leading-tight">
           Lễ Tốt Nghiệp Cử Nhân
           <br />
           <span className="text-champagne-400 font-extrabold uppercase">
@@ -83,7 +83,7 @@ export default function HomePage() {
         {/* Demo Guest Links Section */}
         <div className="bg-[#121C33]/90 backdrop-blur-xl border border-champagne-500/30 rounded-3xl p-6 md:p-8 shadow-2xl text-left max-w-2xl mx-auto">
           <div className="flex items-center justify-between mb-4 border-b border-champagne-500/20 pb-3">
-            <h3 className="font-serif text-lg font-bold text-champagne-300 flex items-center gap-2">
+            <h3 className=" text-lg font-bold text-champagne-300 flex items-center gap-2">
               <Mail className="w-5 h-5 text-champagne-400" />
               Chọn Khách Mời Demo Để Trải Nghiệm Thiệp:
             </h3>

@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Image as ImageIcon, ZoomIn } from 'lucide-react';
-import { GalleryItem } from '@/types/invitation';
-import { Lightbox } from './Lightbox';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Image as ImageIcon, ZoomIn } from "lucide-react";
+import { GalleryItem } from "@/types/invitation";
+import { Lightbox } from "./Lightbox";
 
 interface GalleryMasonryProps {
   galleries: GalleryItem[];
@@ -29,12 +29,9 @@ export function GalleryMasonry({ galleries }: GalleryMasonryProps) {
             <ImageIcon className="w-3.5 h-3.5" />
             KỶ NIỆM ĐÁNG NHỚ
           </div>
-          <h3 className="font-serif text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
-            Khoảnh Khắc Thanh Xuân
+          <h3 className=" text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
+            Khoảnh khắc thanh xuân
           </h3>
-          <p className="text-slate-500 text-xs md:text-sm mt-1 uppercase tracking-widest font-sans">
-            PHOTO GALLERY
-          </p>
         </motion.div>
 
         {/* Gallery Grid */}
@@ -44,7 +41,7 @@ export function GalleryMasonry({ galleries }: GalleryMasonryProps) {
               key={item.id || index}
               initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: '-20px' }}
+              viewport={{ once: true, margin: "-20px" }}
               transition={{ duration: 0.5, delay: index * 0.08 }}
               onClick={() => setActivePhotoIndex(index)}
               className="group relative cursor-pointer overflow-hidden rounded-2xl bg-slate-100 border border-champagne-200/60 shadow-sm aspect-[4/3] hover:shadow-xl hover:border-champagne-400 transition-all duration-300"
@@ -60,7 +57,7 @@ export function GalleryMasonry({ galleries }: GalleryMasonryProps) {
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 text-white">
                 <div className="flex items-center justify-between">
                   <p className="text-xs md:text-sm font-medium line-clamp-1">
-                    {item.caption || 'Xem chi tiết'}
+                    {item.caption || "Xem chi tiết"}
                   </p>
                   <div className="p-1.5 rounded-full bg-white/20 backdrop-blur-sm">
                     <ZoomIn className="w-4 h-4 text-white" />

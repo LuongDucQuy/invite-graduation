@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { GraduationCap, Heart } from 'lucide-react';
-import { EventData, GuestData } from '@/types/invitation';
+import React from "react";
+import { motion } from "framer-motion";
+import { GraduationCap, Heart } from "lucide-react";
+import { EventData, GuestData } from "@/types/invitation";
 
 interface ClosingNoteProps {
   event: EventData;
@@ -25,12 +25,17 @@ export function ClosingNote({ event, guest }: ClosingNoteProps) {
 
           <GraduationCap className="w-12 h-12 text-champagne-400 mx-auto mb-4" />
 
-          <h4 className="font-serif text-2xl md:text-3xl font-medium tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-champagne-200 via-champagne-400 to-champagne-100 mb-3">
-            Hẹn Gặp Lại Bạn!
+          <h4 className=" text-2xl md:text-3xl font-medium tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-champagne-200 via-champagne-400 to-champagne-100 mb-3">
+            Hẹn gặp Bạn!
           </h4>
 
           <p className="text-slate-300 text-sm md:text-base font-light leading-relaxed max-w-md mx-auto mb-6">
-            Cảm ơn <strong className="text-champagne-300 font-medium">{guest.name}</strong> đã luôn đồng hành, yêu thương và ủng hộ {event.graduateName} suốt những năm tháng qua.
+            Cảm ơn{" "}
+            <strong className="text-champagne-300 font-medium">
+              {guest.name}
+            </strong>{" "}
+            đã luôn đồng hành, yêu thương và ủng hộ mình suốt những năm tháng
+            qua.
           </p>
 
           <div className="flex items-center justify-center gap-2 text-xs text-champagne-300/80 uppercase tracking-widest font-sans pt-4 border-t border-champagne-500/20">

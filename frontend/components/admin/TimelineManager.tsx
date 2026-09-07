@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { Plus, Edit2, Trash2, Clock, Sparkles } from 'lucide-react';
-import { AdminService } from '@/services/admin.service';
-import { useToast } from '@/components/ui/Toast';
-import { Modal } from '@/components/ui/Modal';
-import { TimelineItem } from '@/types/invitation';
+import React, { useState, useEffect } from "react";
+import { Plus, Edit2, Trash2, Clock, Sparkles } from "lucide-react";
+import { AdminService } from "@/services/admin.service";
+import { useToast } from "@/components/ui/Toast";
+import { Modal } from "@/components/ui/Modal";
+import { TimelineItem } from "@/types/invitation";
 
 interface TimelineManagerProps {
   eventId: string;
@@ -18,10 +18,10 @@ export function TimelineManager({ eventId }: TimelineManagerProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState<TimelineItem | null>(null);
   const [formData, setFormData] = useState({
-    time: '',
-    title: '',
-    description: '',
-    icon: 'clock',
+    time: "",
+    title: "",
+    description: "",
+    icon: "clock",
     sortOrder: 1,
   });
 
@@ -31,7 +31,7 @@ export function TimelineManager({ eventId }: TimelineManagerProps) {
       const data = await AdminService.getTimelines(eventId);
       setTimelines(data);
     } catch (err: any) {
-      error('Lỗi tải lịch trình', err.message);
+      error("Lỗi tải lịch trình", err.message);
     } finally {
       setLoading(false);
     }
@@ -44,10 +44,10 @@ export function TimelineManager({ eventId }: TimelineManagerProps) {
   const handleOpenAdd = () => {
     setEditingItem(null);
     setFormData({
-      time: '',
-      title: '',
-      description: '',
-      icon: 'sparkles',
+      time: "",
+      title: "",
+      description: "",
+      icon: "sparkles",
       sortOrder: timelines.length + 1,
     });
     setIsModalOpen(true);
@@ -58,8 +58,8 @@ export function TimelineManager({ eventId }: TimelineManagerProps) {
     setFormData({
       time: item.time,
       title: item.title,
-      description: item.description || '',
-      icon: item.icon || 'clock',
+      description: item.description || "",
+      icon: item.icon || "clock",
       sortOrder: item.sortOrder,
     });
     setIsModalOpen(true);
@@ -73,19 +73,19 @@ export function TimelineManager({ eventId }: TimelineManagerProps) {
           ...formData,
           sortOrder: Number(formData.sortOrder),
         });
-        success('Cập nhật thành công', 'Mốc thời gian đã được chỉnh sửa');
+        success("Cập nhật thành công", "Mốc thời gian đã được chỉnh sửa");
       } else {
         await AdminService.createTimeline({
           eventId,
           ...formData,
           sortOrder: Number(formData.sortOrder),
         });
-        success('Thêm thành công', 'Mốc thời gian mới đã được thêm');
+        success("Thêm thành công", "Mốc thời gian mới đã được thêm");
       }
       setIsModalOpen(false);
       fetchTimelines();
     } catch (err: any) {
-      error('Lỗi lưu lịch trình', err.message);
+      error("Lỗi lưu lịch trình", err.message);
     }
   };
 
@@ -93,10 +93,10 @@ export function TimelineManager({ eventId }: TimelineManagerProps) {
     if (!window.confirm(`Xác nhận xóa mốc "${title}"?`)) return;
     try {
       await AdminService.deleteTimeline(id);
-      success('Đã xóa mốc thời gian');
+      success("Đã xóa mốc thời gian");
       fetchTimelines();
     } catch (err: any) {
-      error('Lỗi xóa mốc', err.message);
+      error("Lỗi xóa mốc", err.message);
     }
   };
 
@@ -104,7 +104,9 @@ export function TimelineManager({ eventId }: TimelineManagerProps) {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="font-serif text-2xl font-bold text-slate-900">Lịch Trình Sự Kiện</h2>
+          <h2 className=" text-2xl font-bold text-slate-900">
+            Lịch Trình Sự Kiện
+          </h2>
           <p className="text-sm text-slate-500">
             Quản lý các mốc thời gian hiển thị trên thiệp mời
           </p>
@@ -122,9 +124,13 @@ export function TimelineManager({ eventId }: TimelineManagerProps) {
       {/* Timelines List */}
       <div className="bg-white rounded-2xl border border-slate-200 shadow-sm divide-y divide-slate-100 overflow-hidden">
         {loading ? (
-          <div className="text-center py-10 text-slate-400">Đang tải lịch trình...</div>
+          <div className="text-center py-10 text-slate-400">
+            Đang tải lịch trình...
+          </div>
         ) : timelines.length === 0 ? (
-          <div className="text-center py-12 text-slate-400">Chưa có mốc thời gian nào</div>
+          <div className="text-center py-12 text-slate-400">
+            Chưa có mốc thời gian nào
+          </div>
         ) : (
           timelines.map((item) => (
             <div
@@ -136,9 +142,13 @@ export function TimelineManager({ eventId }: TimelineManagerProps) {
                   {item.time}
                 </span>
                 <div>
-                  <h4 className="font-semibold text-slate-900 text-sm">{item.title}</h4>
+                  <h4 className="font-semibold text-slate-900 text-sm">
+                    {item.title}
+                  </h4>
                   {item.description && (
-                    <p className="text-xs text-slate-500 mt-0.5">{item.description}</p>
+                    <p className="text-xs text-slate-500 mt-0.5">
+                      {item.description}
+                    </p>
                   )}
                   <span className="text-[10px] text-slate-400 font-mono">
                     Icon: {item.icon} &bull; Thứ tự: {item.sortOrder}
@@ -169,7 +179,9 @@ export function TimelineManager({ eventId }: TimelineManagerProps) {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title={editingItem ? 'Chỉnh Sửa Mốc Thời Gian' : 'Thêm Mốc Thời Gian Mới'}
+        title={
+          editingItem ? "Chỉnh Sửa Mốc Thời Gian" : "Thêm Mốc Thời Gian Mới"
+        }
       >
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
@@ -181,7 +193,9 @@ export function TimelineManager({ eventId }: TimelineManagerProps) {
                 type="text"
                 required
                 value={formData.time}
-                onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, time: e.target.value })
+                }
                 className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800"
               />
             </div>
@@ -193,7 +207,12 @@ export function TimelineManager({ eventId }: TimelineManagerProps) {
                 type="number"
                 required
                 value={formData.sortOrder}
-                onChange={(e) => setFormData({ ...formData, sortOrder: parseInt(e.target.value, 10) || 1 })}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    sortOrder: parseInt(e.target.value, 10) || 1,
+                  })
+                }
                 className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800"
               />
             </div>
@@ -208,7 +227,9 @@ export function TimelineManager({ eventId }: TimelineManagerProps) {
               required
               placeholder="VD: Nghi thức trao bằng tốt nghiệp"
               value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, title: e.target.value })
+              }
               className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800"
             />
           </div>
@@ -220,7 +241,9 @@ export function TimelineManager({ eventId }: TimelineManagerProps) {
             <textarea
               rows={2}
               value={formData.description}
-              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
               className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800"
             />
           </div>
@@ -231,11 +254,15 @@ export function TimelineManager({ eventId }: TimelineManagerProps) {
             </label>
             <select
               value={formData.icon}
-              onChange={(e) => setFormData({ ...formData, icon: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, icon: e.target.value })
+              }
               className="w-full px-3.5 py-2 rounded-xl border border-slate-200 focus:border-champagne-500 outline-none text-sm text-slate-800 bg-white"
             >
               <option value="camera">camera (Chụp ảnh lưu niệm)</option>
-              <option value="sparkles">sparkles (Khai mạc / Sự kiện đặc biệt)</option>
+              <option value="sparkles">
+                sparkles (Khai mạc / Sự kiện đặc biệt)
+              </option>
               <option value="award">award (Trao bằng cử nhân)</option>
               <option value="film">film (Chiếu video kỷ niệm)</option>
               <option value="music">music (Âm nhạc &amp; Tiệc mừng)</option>

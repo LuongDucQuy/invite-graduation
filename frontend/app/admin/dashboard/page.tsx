@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { AdminLayout } from '@/components/admin/AdminLayout';
-import { StatsOverview } from '@/components/admin/StatsOverview';
-import { AdminService } from '@/services/admin.service';
-import { DashboardStats } from '@/types/admin';
-import { EventData } from '@/types/invitation';
-import { useToast } from '@/components/ui/Toast';
-import { Sparkles, Calendar } from 'lucide-react';
-import Link from 'next/link';
+import React, { useState, useEffect } from "react";
+import { AdminLayout } from "@/components/admin/AdminLayout";
+import { StatsOverview } from "@/components/admin/StatsOverview";
+import { AdminService } from "@/services/admin.service";
+import { DashboardStats } from "@/types/admin";
+import { EventData } from "@/types/invitation";
+import { useToast } from "@/components/ui/Toast";
+import { Sparkles, Calendar } from "lucide-react";
+import Link from "next/link";
 
 export default function AdminDashboardPage() {
   const { error } = useToast();
@@ -27,7 +27,7 @@ export default function AdminDashboardPage() {
         setStats(statsData);
         setEvent(primaryEvent);
       } catch (err: any) {
-        error('Lỗi tải dữ liệu Dashboard', err.message);
+        error("Lỗi tải dữ liệu Dashboard", err.message);
       } finally {
         setLoading(false);
       }
@@ -46,11 +46,18 @@ export default function AdminDashboardPage() {
               <Sparkles className="w-3.5 h-3.5" />
               TỔNG QUAN HỆ THỐNG THIỆP MỜI
             </div>
-            <h1 className="font-serif text-2xl md:text-3xl font-bold text-white">
-              {event?.title || 'Lễ Tốt Nghiệp — Lương Đức Quý'}
+            <h1 className=" text-2xl md:text-3xl font-bold text-white">
+              {event?.title || "Lễ Tốt Nghiệp — Lương Đức Quý"}
             </h1>
             <p className="text-xs md:text-sm text-slate-300 mt-1 font-light">
-              Tân Cử Nhân: <strong className="text-champagne-300">{event?.graduateName}</strong> &bull; Ngày: {event?.eventDate ? new Date(event.eventDate).toLocaleDateString('vi-VN') : '20/09/2026'}
+              Tân Cử Nhân:{" "}
+              <strong className="text-champagne-300">
+                {event?.graduateName}
+              </strong>{" "}
+              &bull; Ngày:{" "}
+              {event?.eventDate
+                ? new Date(event.eventDate).toLocaleDateString("vi-VN")
+                : "20/09/2026"}
             </p>
           </div>
 
@@ -72,11 +79,15 @@ export default function AdminDashboardPage() {
 
         {/* Analytics & Stats */}
         {loading ? (
-          <div className="py-20 text-center text-slate-400">Đang tổng hợp dữ liệu thống kê...</div>
+          <div className="py-20 text-center text-slate-400">
+            Đang tổng hợp dữ liệu thống kê...
+          </div>
         ) : stats ? (
           <StatsOverview stats={stats} />
         ) : (
-          <div className="py-12 text-center text-slate-400">Không có dữ liệu thống kê</div>
+          <div className="py-12 text-center text-slate-400">
+            Không có dữ liệu thống kê
+          </div>
         )}
       </div>
     </AdminLayout>

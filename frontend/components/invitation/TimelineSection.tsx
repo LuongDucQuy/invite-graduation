@@ -1,9 +1,19 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Camera, Sparkles, Award, Film, Music, Clock, Heart, Coffee, CheckCircle } from 'lucide-react';
-import { TimelineItem } from '@/types/invitation';
+import React from "react";
+import { motion } from "framer-motion";
+import {
+  Camera,
+  Sparkles,
+  Award,
+  Film,
+  Music,
+  Clock,
+  Heart,
+  Coffee,
+  CheckCircle,
+} from "lucide-react";
+import { TimelineItem } from "@/types/invitation";
 
 interface TimelineSectionProps {
   timelines: TimelineItem[];
@@ -37,12 +47,9 @@ export function TimelineSection({ timelines }: TimelineSectionProps) {
             <Clock className="w-3.5 h-3.5" />
             LỊCH TRÌNH CHƯƠNG TRÌNH
           </div>
-          <h3 className="font-serif text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
-            Chương Trình Buổi Lễ
+          <h3 className=" text-3xl md:text-4xl font-bold text-slate-900 tracking-tight">
+            Chương trình buổi lễ
           </h3>
-          <p className="text-slate-500 text-xs md:text-sm mt-1 uppercase tracking-widest font-sans">
-            EVENT TIMELINE
-          </p>
         </motion.div>
 
         {/* Timeline Path Container */}
@@ -53,30 +60,32 @@ export function TimelineSection({ timelines }: TimelineSectionProps) {
           <div className="space-y-8">
             {timelines.map((item, index) => {
               const isEven = index % 2 === 0;
-              const icon = iconMap[item.icon || 'clock'] || <CheckCircle className="w-5 h-5" />;
+              const icon = iconMap[item.icon || "clock"] || (
+                <CheckCircle className="w-5 h-5" />
+              );
 
               return (
                 <motion.div
                   key={item.id || index}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-30px' }}
+                  viewport={{ once: true, margin: "-30px" }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className={`relative flex items-center flex-row ${
-                    isEven ? 'md:flex-row-reverse' : ''
+                    isEven ? "md:flex-row-reverse" : ""
                   }`}
                 >
                   {/* Content card */}
                   <div
                     className={`w-[calc(100%-4rem)] ml-14 md:ml-0 md:w-[calc(50%-2.5rem)] ${
-                      isEven ? 'md:text-left' : 'md:text-right'
+                      isEven ? "md:text-left" : "md:text-right"
                     }`}
                   >
                     <div className="p-5 md:p-6 rounded-2xl bg-white/85 backdrop-blur-sm border border-champagne-200/80 shadow-md shadow-champagne-500/5 hover:border-champagne-400 transition-all duration-300">
                       <span className="inline-block px-3 py-1 rounded-full bg-champagne-100 text-champagne-800 text-xs font-bold font-mono tracking-wider mb-2">
                         {item.time}
                       </span>
-                      <h4 className="font-serif text-lg font-bold text-slate-900 mb-1">
+                      <h4 className=" text-lg font-bold text-slate-900 mb-1">
                         {item.title}
                       </h4>
                       {item.description && (
