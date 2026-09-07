@@ -42,9 +42,9 @@ export function HeroEnvelope({
     }, 900);
   };
 
-  if (isOpen) return null;
+  if (isOpen || !event || !guest) return null;
 
-  const eventDateObj = new Date(event.eventDate);
+  const eventDateObj = event.eventDate ? new Date(event.eventDate) : new Date();
   const formattedDay = eventDateObj.getDate().toString().padStart(2, "0");
   const formattedMonth = (eventDateObj.getMonth() + 1)
     .toString()
