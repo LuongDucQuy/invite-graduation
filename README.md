@@ -1,4 +1,4 @@
-# 🎓 HỆ THỐNG THIỆP MỜI LỄ TỐT NGHIỆP CÁ NHÂN HÓA (GRADUATION INVITATION PLATFORM)
+# 🎓 THIỆP MỜI LỄ TỐT NGHIỆP (GRADUATION INVITATION PLATFORM)
 
 Hệ thống Website thiệp mời lễ tốt nghiệp điện tử cao cấp, hiện đại, mang phong cách hoàng gia/champagne gold sang trọng, có animation mở thiệp mượt mà, xác nhận RSVP realtime và trang quản trị Admin trực quan.
 
