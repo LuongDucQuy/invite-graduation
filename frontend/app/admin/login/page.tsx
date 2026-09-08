@@ -61,10 +61,9 @@ export default function AdminLoginPage() {
               <input
                 type="text"
                 required
-                value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-navy-900 border border-slate-700 text-white text-sm focus:border-champagne-500 focus:ring-1 focus:ring-champagne-500 outline-none"
-                placeholder="admin"
+                placeholder=""
               />
             </div>
           </div>
@@ -78,18 +77,11 @@ export default function AdminLoginPage() {
               <input
                 type="password"
                 required
-                value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-navy-900 border border-slate-700 text-white text-sm focus:border-champagne-500 focus:ring-1 focus:ring-champagne-500 outline-none"
                 placeholder="••••••••"
               />
             </div>
-          </div>
-
-          {/* Seed demo quick note */}
-          <div className="p-3 rounded-xl bg-champagne-500/10 border border-champagne-500/20 text-xs text-champagne-200">
-            <p className="font-semibold">Tài khoản demo mặc định:</p>
-            <p className="font-mono mt-0.5">admin / Admin@123456</p>
           </div>
 
           <button

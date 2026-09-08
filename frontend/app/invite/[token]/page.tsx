@@ -170,11 +170,6 @@ export default function InvitationPage() {
             <TimelineSection timelines={event.timelines} />
           )}
 
-          {/* Section 5: Photo Memories Gallery */}
-          {event.galleries && event.galleries.length > 0 && (
-            <GalleryMasonry galleries={event.galleries} />
-          )}
-
           {/* Section 6: RSVP Confirmation Form */}
           <RSVPSection
             token={token}
@@ -190,6 +185,11 @@ export default function InvitationPage() {
             defaultGuestName={guest.name}
             graduateName={event.graduateName}
           />
+
+          {/* Section 5: Photo Memories Gallery */}
+          {event.galleries && event.galleries.length > 0 && (
+            <GalleryMasonry galleries={event.galleries} />
+          )}
 
           {/* Section 8: Closing Note */}
           <ClosingNote event={event} guest={guest} />

@@ -2,42 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import {
-  GraduationCap,
-  ArrowRight,
-  ShieldCheck,
-  Mail,
-  Sparkles,
-  ExternalLink,
-} from "lucide-react";
-
-const DEMO_GUESTS = [
-  {
-    name: "Nguyễn Văn A",
-    role: "Bạn thân Đại học",
-    token: "a8K2x9",
-    status: "ATTENDING",
-  },
-  {
-    name: "Trần Văn B",
-    role: "Đồng nghiệp",
-    token: "b7L3y1",
-    status: "PENDING",
-  },
-  { name: "Lê Thị C", role: "Gia đình", token: "c6M4z2", status: "ATTENDING" },
-  {
-    name: "Phạm Văn D",
-    role: "Thầy cô / Mentor",
-    token: "d5N5w3",
-    status: "NOT_ATTENDING",
-  },
-  {
-    name: "Hoàng Thị E",
-    role: "Bạn cấp 3",
-    token: "e4P6v4",
-    status: "PENDING",
-  },
-];
+import { GraduationCap, ShieldCheck } from "lucide-react";
 
 export default function HomePage() {
   return (
@@ -70,54 +35,22 @@ export default function HomePage() {
         </Link>
       </header>
 
-      {/* Hero Content */}
       <main className="relative z-10 max-w-4xl mx-auto px-6 py-16 text-center">
-        <h1 className=" text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-cream-100 via-champagne-300 to-cream-200 mb-6 leading-tight">
-          Lễ Tốt Nghiệp Cử Nhân
+        <h1
+          className="text-3xl sm:text-5xl md:text-6xl font-semibold tracking-tight
+    bg-clip-text bg-gradient-to-r via-champagne-300 to-cream-200
+    mb-6 leading-tight"
+          style={{ fontFamily: "'Playfair Display', serif" }}
+        >
+          Lễ tốt nghiệp Tân Cử Nhân
           <br />
-          <span className="text-champagne-400 font-extrabold uppercase">
+          <span
+            className="text-champagne-400"
+            style={{ fontFamily: "'Great Vibes', cursive" }}
+          >
             Lương Đức Quý
           </span>
         </h1>
-
-        {/* Demo Guest Links Section */}
-        <div className="bg-[#121C33]/90 backdrop-blur-xl border border-champagne-500/30 rounded-3xl p-6 md:p-8 shadow-2xl text-left max-w-2xl mx-auto">
-          <div className="flex items-center justify-between mb-4 border-b border-champagne-500/20 pb-3">
-            <h3 className=" text-lg font-bold text-champagne-300 flex items-center gap-2">
-              <Mail className="w-5 h-5 text-champagne-400" />
-              Chọn Khách Mời Demo Để Trải Nghiệm Thiệp:
-            </h3>
-          </div>
-
-          <div className="space-y-3">
-            {DEMO_GUESTS.map((guest) => (
-              <Link
-                key={guest.token}
-                href={`/invite/${guest.token}`}
-                className="group flex items-center justify-between p-3.5 rounded-2xl bg-navy-950/60 border border-slate-800 hover:border-champagne-400/60 hover:bg-navy-900 transition-all"
-              >
-                <div>
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-cream-50 text-sm group-hover:text-champagne-300 transition-colors">
-                      {guest.name}
-                    </span>
-                    <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-300 border border-slate-700">
-                      {guest.role}
-                    </span>
-                  </div>
-                  <span className="text-xs text-slate-400 font-mono mt-0.5 block">
-                    /invite/{guest.token}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2 text-champagne-400 text-xs font-semibold uppercase tracking-wider group-hover:translate-x-1 transition-transform">
-                  <span>Mở Thiệp</span>
-                  <ArrowRight className="w-4 h-4" />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
       </main>
 
       {/* Footer */}

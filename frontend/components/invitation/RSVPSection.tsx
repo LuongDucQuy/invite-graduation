@@ -2,7 +2,17 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, X, Send, Heart, Users, Sparkles } from "lucide-react";
+import {
+  Check,
+  X,
+  Send,
+  Heart,
+  Users,
+  Sparkles,
+  ImageIcon,
+  MessageSquare,
+  User,
+} from "lucide-react";
 import confetti from "canvas-confetti";
 import { GuestData, RsvpStatus } from "@/types/invitation";
 import { InvitationService } from "@/services/invitation.service";
@@ -78,8 +88,9 @@ export function RSVPSection({
   };
 
   return (
-    <section id="rsvp-section" className="relative py-16 px-4">
-      <div className="max-w-xl mx-auto">
+    <section id="rsvp-section" className="relative py-20 px-4">
+      <div className="max-w-lg mx-auto">
+        {/* ── Header ── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -87,113 +98,183 @@ export function RSVPSection({
           transition={{ duration: 0.7 }}
           className="text-center mb-10"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-champagne-100/70 border border-champagne-200 text-champagne-800 text-xs font-semibold uppercase tracking-widest mb-2">
-            <Heart className="w-3.5 h-3.5 text-rose-500 fill-rose-500/30" />
-            XÁC NHẬN THAM DỰ
+          {/* Ornamental top rule */}
+          <div className="flex items-center justify-center gap-3 mb-5">
+            <div className="h-px w-10 bg-gradient-to-r from-transparent to-champagne-400/50" />
+            <span className="text-champagne-400 text-sm leading-none select-none">
+              ✦
+            </span>
+            <div className="h-px w-10 bg-gradient-to-l from-transparent to-champagne-400/50" />
           </div>
-          <p className="text-slate-500 text-sm mt-1 font-light">
-            Sự hiện diện của bạn là niềm vinh dự lớn đối với mình
+
+          <h3 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-3">
+            Tham dự buổi lễ tốt nghiệp
+          </h3>
+
+          <p className="text-sm md:text-base text-slate-400 italic font-light">
+            Sự hiện diện của bạn là niềm vui lớn đối với mình
           </p>
+
+          {/* Ornamental bottom rule */}
+          <div className="flex items-center justify-center gap-2 mt-5">
+            <div className="h-px w-6 bg-champagne-300/60" />
+            <div className="h-px w-12 bg-champagne-400/40" />
+            <div className="h-px w-6 bg-champagne-300/60" />
+          </div>
         </motion.div>
 
-        {/* RSVP Card */}
+        {/* ── RSVP Card ── */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.96 }}
+          initial={{ opacity: 0, scale: 0.97 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="relative bg-white/90 backdrop-blur-md rounded-3xl border border-champagne-200 shadow-xl shadow-champagne-500/10 p-6 md:p-8"
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="bg-white/90 backdrop-blur-md rounded-[2rem] border border-champagne-200/60 shadow-lg shadow-champagne-300/10 p-7 md:p-10"
         >
-          {/* Status Badge if already submitted */}
+          {/* ── Status badge (only shown after submit) ── */}
           {hasSubmitted && (
-            <div className="mb-6 p-4 rounded-2xl bg-champagne-50 border border-champagne-200/80 text-center">
-              <p className="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-1">
-                TRẠNG THÁI HIỆN TẠI CỦA BẠN
+            <motion.div
+              initial={{ opacity: 0, y: -6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35 }}
+              className={`mb-8 py-5 px-6 rounded-2xl text-center ${
+                currentStatus === "ATTENDING"
+                  ? "bg-emerald-50/80 border border-emerald-200/50"
+                  : "bg-rose-50/80 border border-rose-200/50"
+              }`}
+            >
+              {currentStatus === "ATTENDING" ? (
+                <>
+                  <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100 mb-3">
+                    <Check className="w-5 h-5 text-emerald-600" />
+                  </div>
+                  <p className="font-semibold text-emerald-800 text-base">
+                    Bạn sẽ tham dự
+                  </p>
+                  <p className="text-sm text-emerald-600/70 mt-1">
+                    {numberOfGuests} người · Hẹn gặp tại buổi lễ 🎓
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-rose-100 mb-3">
+                    <X className="w-5 h-5 text-rose-500" />
+                  </div>
+                  <p className="font-semibold text-rose-800 text-base">
+                    Tiếc quá, bạn không thể đến
+                  </p>
+                </>
+              )}
+              <p className="text-xs text-slate-400 mt-3">
+                Bạn có thể thay đổi câu trả lời bất kỳ lúc nào bên dưới
               </p>
-              <div className="inline-flex items-center gap-2  font-bold text-base md:text-lg">
-                {currentStatus === "ATTENDING" ? (
-                  <span className="text-emerald-700 flex items-center gap-1.5">
-                    <Check className="w-5 h-5" /> Bạn sẽ tham dự (
-                    {numberOfGuests} người)
-                  </span>
-                ) : (
-                  <span className="text-rose-600 flex items-center gap-1.5">
-                    <X className="w-5 h-5" /> Tiếc quá, bạn không thể đến
-                  </span>
-                )}
-              </div>
-              <p className="text-xs text-slate-400 mt-1">
-                (Bạn có thể thay đổi câu trả lời bất kỳ lúc nào bên dưới)
-              </p>
-            </div>
+            </motion.div>
           )}
 
-          {/* Action Choice Buttons */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          {/* ── RSVP choice buttons ── */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+            {/* Attending */}
             <button
               type="button"
               onClick={() => handleSubmit("ATTENDING")}
               disabled={isSubmitting}
-              className={`flex items-center justify-center gap-2 py-4 px-6 rounded-2xl font-medium text-sm md:text-base transition-all duration-300 shadow-sm ${
+              className={`flex flex-col items-center justify-center gap-1.5 py-5 px-4 rounded-2xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-champagne-400 ${
                 currentStatus === "ATTENDING"
-                  ? "bg-emerald-600 text-white shadow-emerald-500/25 shadow-lg scale-[1.02]"
-                  : "bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100/80"
+                  ? "bg-emerald-600 text-white shadow-md shadow-emerald-500/20 scale-[1.02]"
+                  : "bg-white text-slate-700 border border-slate-200 hover:border-emerald-200 hover:bg-emerald-50/50"
               }`}
             >
-              <Check className="w-5 h-5" />
-              <span>SẼ THAM DỰ</span>
+              <Check
+                className={`w-5 h-5 transition-colors duration-200 ${
+                  currentStatus === "ATTENDING"
+                    ? "text-white"
+                    : "text-emerald-500"
+                }`}
+              />
+              <span className="text-sm font-semibold tracking-wide">
+                Sẽ tham dự
+              </span>
+              <span
+                className={`text-xs transition-colors duration-200 ${
+                  currentStatus === "ATTENDING"
+                    ? "text-emerald-100/80"
+                    : "text-slate-400"
+                }`}
+              >
+                Mình sẽ có mặt
+              </span>
             </button>
 
+            {/* Not attending */}
             <button
               type="button"
               onClick={() => handleSubmit("NOT_ATTENDING")}
               disabled={isSubmitting}
-              className={`flex items-center justify-center gap-2 py-4 px-6 rounded-2xl font-medium text-sm md:text-base transition-all duration-300 shadow-sm ${
+              className={`flex flex-col items-center justify-center gap-1.5 py-5 px-4 rounded-2xl transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-champagne-400 ${
                 currentStatus === "NOT_ATTENDING"
-                  ? "bg-slate-700 text-white shadow-slate-500/25 shadow-lg scale-[1.02]"
-                  : "bg-rose-50 text-rose-700 border border-rose-200 hover:bg-rose-100/80"
+                  ? "bg-slate-700 text-white shadow-md shadow-slate-600/20 scale-[1.02]"
+                  : "bg-white text-slate-700 border border-slate-200 hover:border-rose-200 hover:bg-rose-50/50"
               }`}
             >
-              <X className="w-5 h-5" />
-              <span>KHÔNG THỂ ĐẾN</span>
+              <X
+                className={`w-5 h-5 transition-colors duration-200 ${
+                  currentStatus === "NOT_ATTENDING"
+                    ? "text-white"
+                    : "text-rose-400"
+                }`}
+              />
+              <span className="text-sm font-semibold tracking-wide">
+                Không thể đến
+              </span>
+              <span
+                className={`text-xs transition-colors duration-200 ${
+                  currentStatus === "NOT_ATTENDING"
+                    ? "text-slate-300"
+                    : "text-slate-400"
+                }`}
+              >
+                Tiếc khi vắng mặt
+              </span>
             </button>
           </div>
 
-          {/* Extended fields for Plus-ones & Message */}
-          <div className="space-y-4 pt-4 border-t border-slate-100">
+          <div className="space-y-5 pt-6 border-t border-champagne-100/70">
+            {/* Guest name */}
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
+              <label className="flex items-center gap-1.5 text-sm font-medium text-slate-500 mb-2">
+                <User className="w-3.5 h-3.5 text-champagne-500" />
                 Tên khách mời
               </label>
               <input
                 type="text"
                 value={guestName}
                 onChange={(e) => setGuestName(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-champagne-500 focus:ring-2 focus:ring-champagne-200 outline-none text-sm text-slate-800"
-                placeholder="Nhập tên của bạn"
+                className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-white/70 focus:border-champagne-400 focus:ring-2 focus:ring-champagne-200/40 outline-none text-sm text-slate-800 placeholder:text-slate-300 transition-all duration-200"
+                placeholder="Nhập tên của bạn..."
               />
             </div>
 
+            {/* Number of guests — segmented selector */}
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5 flex items-center justify-between">
+              <label className="flex items-center justify-between text-sm font-medium text-slate-500 mb-2">
                 <span className="flex items-center gap-1.5">
-                  <Users className="w-4 h-4 text-champagne-600" /> Số lượng
-                  người tham dự
+                  <Users className="w-3.5 h-3.5 text-champagne-500" />
+                  Số lượng người tham dự
                 </span>
-                <span className="text-champagne-700 font-bold">
+                <span className="text-champagne-600 font-semibold text-xs">
                   {numberOfGuests} người
                 </span>
               </label>
-              <div className="flex gap-2">
+              <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-50 border border-slate-100">
                 {[1, 2, 3, 4, 5].map((num) => (
                   <button
                     key={num}
                     type="button"
                     onClick={() => setNumberOfGuests(num)}
-                    className={`flex-1 py-2 rounded-xl text-sm font-semibold border transition-all ${
+                    className={`flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-champagne-400 ${
                       numberOfGuests === num
-                        ? "bg-champagne-600 text-white border-champagne-600 shadow-sm"
-                        : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
+                        ? "bg-champagne-600 text-white shadow-sm shadow-champagne-500/20"
+                        : "text-slate-500 hover:text-slate-700 hover:bg-white/80"
                     }`}
                   >
                     {num}
@@ -202,19 +283,25 @@ export function RSVPSection({
               </div>
             </div>
 
+            {/* Message */}
             <div>
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">
-                Lời nhắn gửi đến {graduateName} (tuỳ chọn)
+              <label className="flex items-center gap-1.5 text-sm font-medium text-slate-500 mb-2">
+                <MessageSquare className="w-3.5 h-3.5 text-champagne-500" />
+                Lời nhắn gửi đến {graduateName}
+                <span className="text-xs text-slate-300 font-normal">
+                  (tuỳ chọn)
+                </span>
               </label>
               <textarea
                 rows={3}
                 value={rsvpMessage}
                 onChange={(e) => setRsvpMessage(e.target.value)}
-                className="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:border-champagne-500 focus:ring-2 focus:ring-champagne-200 outline-none text-sm text-slate-800 resize-none"
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white/70 focus:border-champagne-400 focus:ring-2 focus:ring-champagne-200/40 outline-none text-sm text-slate-800 placeholder:text-slate-300 resize-none transition-all duration-200"
                 placeholder="Gửi lời chúc mừng hoặc dặn dò đặc biệt..."
               />
             </div>
 
+            {/* Submit CTA */}
             <button
               type="button"
               onClick={() =>
@@ -225,10 +312,10 @@ export function RSVPSection({
                 )
               }
               disabled={isSubmitting}
-              className="w-full mt-2 py-3 rounded-xl bg-navy-900 hover:bg-navy-800 text-white font-medium text-sm tracking-wider uppercase flex items-center justify-center gap-2 shadow-md transition-all"
+              className="w-full py-4 mt-1 rounded-xl bg-navy-900 hover:bg-navy-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm tracking-widest uppercase flex items-center justify-center gap-2 shadow-md shadow-navy-900/15 hover:shadow-lg hover:shadow-navy-900/20 active:scale-[0.985] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-champagne-400"
             >
               <Send className="w-4 h-4 text-champagne-400" />
-              <span>{isSubmitting ? "Đang cập nhật..." : "GỬI PHẢN HỒI"}</span>
+              <span>{isSubmitting ? "Đang cập nhật..." : "Gửi phản hồi"}</span>
             </button>
           </div>
         </motion.div>
