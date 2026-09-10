@@ -250,23 +250,6 @@ export function RSVPSection({
                 placeholder="Nhập tên của bạn..."
               />
             </div>
-
-            {/* Submit CTA */}
-            <button
-              type="button"
-              onClick={() =>
-                handleSubmit(
-                  currentStatus === "NOT_ATTENDING"
-                    ? "NOT_ATTENDING"
-                    : "ATTENDING",
-                )
-              }
-              disabled={isSubmitting}
-              className="w-full py-4 mt-1 rounded-xl bg-navy-900 hover:bg-navy-800 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold text-sm tracking-widest uppercase flex items-center justify-center gap-2 shadow-md shadow-navy-900/15 hover:shadow-lg hover:shadow-navy-900/20 active:scale-[0.985] transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-champagne-400"
-            >
-              <Send className="w-4 h-4 text-champagne-400" />
-              <span>{isSubmitting ? "Đang cập nhật..." : "Gửi phản hồi"}</span>
-            </button>
           </div>
         </motion.div>
       </div>
