@@ -151,9 +151,6 @@ export function RSVPSection({
                   <p className="font-semibold text-emerald-800 text-base">
                     Bạn sẽ tham dự
                   </p>
-                  <p className="text-sm text-emerald-600/70 mt-1">
-                    {numberOfGuests} người · Hẹn gặp tại buổi lễ 🎓
-                  </p>
                 </>
               ) : (
                 <>
@@ -251,53 +248,6 @@ export function RSVPSection({
                 onChange={(e) => setGuestName(e.target.value)}
                 className="w-full h-12 px-4 rounded-xl border border-slate-200 bg-white/70 focus:border-champagne-400 focus:ring-2 focus:ring-champagne-200/40 outline-none text-sm text-slate-800 placeholder:text-slate-300 transition-all duration-200"
                 placeholder="Nhập tên của bạn..."
-              />
-            </div>
-
-            {/* Number of guests — segmented selector */}
-            <div>
-              <label className="flex items-center justify-between text-sm font-medium text-slate-500 mb-2">
-                <span className="flex items-center gap-1.5">
-                  <Users className="w-3.5 h-3.5 text-champagne-500" />
-                  Số lượng người tham dự
-                </span>
-                <span className="text-champagne-600 font-semibold text-xs">
-                  {numberOfGuests} người
-                </span>
-              </label>
-              <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-50 border border-slate-100">
-                {[1, 2, 3, 4, 5].map((num) => (
-                  <button
-                    key={num}
-                    type="button"
-                    onClick={() => setNumberOfGuests(num)}
-                    className={`flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-champagne-400 ${
-                      numberOfGuests === num
-                        ? "bg-champagne-600 text-white shadow-sm shadow-champagne-500/20"
-                        : "text-slate-500 hover:text-slate-700 hover:bg-white/80"
-                    }`}
-                  >
-                    {num}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Message */}
-            <div>
-              <label className="flex items-center gap-1.5 text-sm font-medium text-slate-500 mb-2">
-                <MessageSquare className="w-3.5 h-3.5 text-champagne-500" />
-                Lời nhắn gửi đến {graduateName}
-                <span className="text-xs text-slate-300 font-normal">
-                  (tuỳ chọn)
-                </span>
-              </label>
-              <textarea
-                rows={3}
-                value={rsvpMessage}
-                onChange={(e) => setRsvpMessage(e.target.value)}
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white/70 focus:border-champagne-400 focus:ring-2 focus:ring-champagne-200/40 outline-none text-sm text-slate-800 placeholder:text-slate-300 resize-none transition-all duration-200"
-                placeholder="Gửi lời chúc mừng hoặc dặn dò đặc biệt..."
               />
             </div>
 
